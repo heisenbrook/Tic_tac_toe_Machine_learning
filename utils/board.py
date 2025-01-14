@@ -36,6 +36,20 @@ def check_triplets(positions):
         return True
     if positions[2]==positions[4] and positions[4]==positions[6]:
         return True
+    
+    # check tie condition
+    elif 0 not in positions:
+        return 'Tie'
+    else:
+        return False
+    
+def play(player1, player2, turn=False):
+    positions = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+    while True:
+        if turn:
+            action = int(input('player 1, where to move? [1 to 9]:'))
+
 
 
 
