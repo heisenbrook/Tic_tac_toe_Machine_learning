@@ -1,5 +1,29 @@
 import numpy as np
+from utils.Q_player import player1, player2
 
+def action_train(player1, player2, turn, positions):
+    while True:
+        if turn == 1:
+            action = player1()
+        if turn == 2:
+            action = player2()
+        if positions[action] == 0:
+            return action
+        else:
+            continue
+        
+def action(turn, positions):
+    while True:
+        if turn == 1:
+            action = int(input('player 1, where to move? [1 to 9]:'))
+        if turn == 2:
+            action = int(input('player 1, where to move? [1 to 9]:'))
+        if positions[action] == 0:
+            return action
+        else:
+            continue
+        
+    
 def print_board(positions):
     board = []
     for spot in positions:
@@ -43,12 +67,7 @@ def check_triplets(positions):
     else:
         return False
     
-def play(player1, player2, turn=False):
-    positions = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-    while True:
-        if turn:
-            action = int(input('player 1, where to move? [1 to 9]:'))
 
 
 
