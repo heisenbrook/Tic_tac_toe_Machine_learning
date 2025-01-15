@@ -1,4 +1,3 @@
-from utils.Q_player import player1, player2
 from utils.board import check_triplets, action_train
 from tqdm import tqdm
 

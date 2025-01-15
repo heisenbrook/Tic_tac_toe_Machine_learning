@@ -1,5 +1,4 @@
 import numpy as np
-from utils.Q_player import player1, player2
 
 def action_train(player1, player2, turn, positions):
     while True:
