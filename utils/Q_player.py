@@ -1,39 +1,33 @@
 import random
 import numpy as np
 
-from utils.board import check_triplets
+def update_q_table(Q, state, action, reward, new_state):
+    alpha = 0.7
+    gamma = 0.01
+    state = str(state)
+    new_state = str(new_state)
+    q_values = Q.get(state, np.zeros(9))
+    next_q_values = Q.get(str(new_state), np.zeros(9))
+    max_next_q_value = np.max(next_q_values)
+    q_values[action[0]] += alpha * (reward + gamma * max_next_q_value - q_values[action[0]])
 
-
-def update_q_table(state, action, reward, new_state):
-    old = Q[state][action]
-    next_max = max(Q[new_state])
-    Q[state][action] = (1 - alpha) * old + alpha * (reward + gamma * next_max) 
+    Q[state] = q_values
     
-def sel_e_greedy_action(positions, eps):
+def sel_e_greedy_action(Q, positions, epsilon):
+    str_positions = str(positions)
     empty_pos = np.argwhere(positions == 0)
-    if np.random.rand()  < eps or positions not in Q:
+    if np.random.rand()  < epsilon or str_positions not in Q:
         action = tuple(random.choice(empty_pos))
         return action
     else:
-        q_val = Q[positions]
-        empty_q_val = [q_val[x[0], x[1]] for x in empty_pos]
+        q_val = Q[str_positions]
+        empty_q_val = [q_val[x[0]] for x in empty_pos]
         max_q_val = max(empty_q_val)
         max_q_ind = random.choice(np.argwhere(empty_q_val == max_q_val))
         action = tuple(empty_pos[max_q_ind]) 
         return action
 
 
-alpha = 0.7
-gamma = 0.01
-epsilon = 0.82
-discount = 0.99
-num_episodes = 0
-Q = {}
-
-#main
-
-def q_player(positions):
-    positions = np.asarray(positions).reshape((3,3))
 
 
-    epsilon = max(0.01, discount*epsilon)
+

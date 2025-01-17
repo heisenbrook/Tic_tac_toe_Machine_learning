@@ -1,28 +1,4 @@
 import numpy as np
-
-def action_train(player1, player2, turn, positions):
-    while True:
-        if turn == 1:
-            action = player1()
-        if turn == 2:
-            action = player2()
-        if positions[action-1] == 0:
-            return action
-        else:
-            continue
-        
-def action_h(turn, positions):
-    while True:
-        if turn == 1:
-            action = int(input('player 1, where to move? [1 to 9]:'))
-        if turn == 2:
-            action = int(input('player 2, where to move? [1 to 9]:'))
-        if positions[action-1] == 0:
-            return action
-        else:
-            print('spot already taken! please, choose a different spot on the board')
-            continue
-        
     
 def print_board(positions):
     board = []

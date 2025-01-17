@@ -1,6 +1,8 @@
-from utils.board import print_board, check_triplets
+import numpy as np
+from board import print_board, check_triplets
+from Q_player import update_q_table, sel_e_greedy_action
 
-def action_h(turn, positions):
+def action_r(turn, positions):
     while True:
         if turn == 1:
             action = int(input('player 1, where to move? [1 to 9]:'))
@@ -12,13 +14,15 @@ def action_h(turn, positions):
             print('spot already taken! please, choose a different spot on the board')
             continue
         
-def play_h(turn):
-    positions = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+def play_r(turn):
+    positions = np.zeros(9)
+    p1_win, p2_win, p_tie, p_tot = 0, 0, 0, 0
+    epsilon1 = 0.5
 
     while True:
         print_board(positions)
         if turn == 1:
-            action = action_h(turn, positions)
+            action = action_r(turn, positions)
             positions[action-1] = 1
             turn = 2
             if check_triplets(positions) == True:
@@ -32,7 +36,7 @@ def play_h(turn):
                 positions = [0, 0, 0, 0, 0, 0, 0, 0, 0]
                 break
         if turn == 2:
-            action = action_h(turn, positions)
+            action = action_r(turn, positions)
             positions[action-1] = 2
             turn = 1
             if check_triplets(positions) == True:
@@ -44,4 +48,3 @@ def play_h(turn):
                 print('Tie!')
                 positions = [0, 0, 0, 0, 0, 0, 0, 0, 0]
                 break
-            
