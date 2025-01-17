@@ -2,12 +2,14 @@ import numpy as np
 from board import print_board, check_triplets
 from Q_player import update_q_table, sel_e_greedy_action
 
-def action_r(turn, positions):
+Q1 = {}
+
+def action_r(turn, positions, epsilon):
     while True:
         if turn == 1:
-            action = int(input('player 1, where to move? [1 to 9]:'))
+            action = sel_e_greedy_action(Q1, positions, epsilon)
         if turn == 2:
-            action = int(input('player 2, where to move? [1 to 9]:'))
+            action = 
         if positions[action-1] == 0:
             return action
         else:

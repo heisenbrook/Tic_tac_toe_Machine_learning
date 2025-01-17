@@ -64,7 +64,7 @@ def play(turn):
                 if check_triplets(positions) == True:
                     p2_win +=1
                     reward1 = 0
-                    reward2 = 1
+                    reward2 = 1.5
                     update_q_table(Q1, cur_pos, action, reward1, positions)
                     update_q_table(Q2, cur_pos, action, reward2, positions)
                     positions = np.zeros(9)
@@ -74,7 +74,7 @@ def play(turn):
                 if check_triplets(positions) == 'Tie':
                     p_tie +=1
                     reward1 = 0.5
-                    reward2 = 0.5
+                    reward2 = 1
                     update_q_table(Q1, cur_pos, action, reward1, positions)
                     update_q_table(Q2, cur_pos, action, reward2, positions)
                     positions = np.zeros(9)
