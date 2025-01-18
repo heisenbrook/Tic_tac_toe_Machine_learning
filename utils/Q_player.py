@@ -9,7 +9,7 @@ def update_q_table(Q, state, action, reward, new_state):
     q_values = Q.get(state, np.zeros(9))
     next_q_values = Q.get(str(new_state), np.zeros(9))
     max_next_q_value = np.max(next_q_values)
-    q_values[action[0]] += alpha * (reward + gamma * max_next_q_value - q_values[action[0]])
+    q_values[action] += alpha * (reward + gamma * max_next_q_value - q_values[action])
 
     Q[state] = q_values
     
