@@ -17,14 +17,14 @@ def sel_e_greedy_action(Q, positions, epsilon):
     str_positions = str(positions)
     empty_pos = np.argwhere(positions == 0)
     if np.random.rand()  < epsilon or str_positions not in Q:
-        action = tuple(random.choice(empty_pos))
+        action = random.choice(empty_pos)
         return action
     else:
         q_val = Q[str_positions]
         empty_q_val = [q_val[x[0]] for x in empty_pos]
         max_q_val = max(empty_q_val)
         max_q_ind = random.choice(np.argwhere(empty_q_val == max_q_val))
-        action = tuple(empty_pos[max_q_ind]) 
+        action = empty_pos[max_q_ind] 
         return action
 
 
