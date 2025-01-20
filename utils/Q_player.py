@@ -7,7 +7,7 @@ def update_q_table(Q, state, action, reward, new_state):
     state = str(state)
     new_state = str(new_state)
     q_values = Q.get(state, np.zeros(9))
-    next_q_values = Q.get(str(new_state), np.zeros(9))
+    next_q_values = Q.get(new_state, np.zeros(9))
     max_next_q_value = np.max(next_q_values)
     q_values[action] += alpha * (reward + gamma * max_next_q_value - q_values[action])
 
@@ -23,7 +23,7 @@ def sel_e_greedy_action(Q, positions, epsilon):
         q_val = Q[str_positions]
         empty_q_val = [q_val[x[0]] for x in empty_pos]
         max_q_val = max(empty_q_val)
-        max_q_ind = random.choice(np.argwhere(empty_q_val == max_q_val))
+        max_q_ind = random.choice([i for i in range(len(empty_pos)) if empty_q_val[i] == max_q_val])
         action = empty_pos[max_q_ind] 
         return action
 

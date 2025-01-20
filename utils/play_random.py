@@ -1,10 +1,11 @@
 import random
 from tqdm import tqdm
 import numpy as np
-from utils.board import print_board, check_triplets
-from utils.Q_player import update_q_table, sel_e_greedy_action
+from utils.play_to_train import Q1
+from utils.board import check_triplets
+from utils.Q_player import sel_e_greedy_action
 
-Q1 = {}
+Q1 = Q1
 
 def action_r(Q1, turn, positions, epsilon):
     while True:
@@ -20,11 +21,11 @@ def action_r(Q1, turn, positions, epsilon):
 def play_r(turn):
     positions = np.zeros(9)
     p1_win, p2_win, p_tie, p_tot = 0, 0, 0, 0
-    epsilon = 0.5
+    epsilon = 1
     
-    for _ in tqdm(range(100000), 
+    for _ in tqdm(range(10000), 
                     desc='Training...', 
-                    total=100000,
+                    total=10000,
                     leave=True,
                     ncols=80):
         p_tot +=1
@@ -37,17 +38,17 @@ def play_r(turn):
                 turn = 2
                 if check_triplets(positions) == True:
                     p1_win +=1
-                    reward1 = 1
-                    update_q_table(Q1, cur_pos, action, reward1, positions)
+                    #reward1 = 1
+                    #update_q_table(Q1, cur_pos, action, reward1, positions)
                     positions = np.zeros(9)
-                    epsilon *= 0.99
+                    #epsilon *= 0.99
                     break
                 if check_triplets(positions) == 'Tie':
                     p_tie +=1
-                    reward1 = 0.5
-                    update_q_table(Q1, cur_pos, action, reward1, positions)
+                    #reward1 = 0.5
+                    #update_q_table(Q1, cur_pos, action, reward1, positions)
                     positions = np.zeros(9)
-                    epsilon *= 0.99
+                    #epsilon *= 0.99
                     break
                     
             if turn == 2:
@@ -56,17 +57,17 @@ def play_r(turn):
                 turn = 1
                 if check_triplets(positions) == True:
                     p2_win +=1
-                    reward1 = 0
-                    update_q_table(Q1, cur_pos, action, reward1, positions)
+                    #reward1 = 0
+                    #update_q_table(Q1, cur_pos, action, reward1, positions)
                     positions = np.zeros(9)
-                    epsilon *= 0.99
+                    #epsilon *= 0.99
                     break
                 if check_triplets(positions) == 'Tie':
                     p_tie +=1
-                    reward1 = 0.5
-                    update_q_table(Q1, cur_pos, action, reward1, positions)
+                    #reward1 = 0.5
+                    #update_q_table(Q1, cur_pos, action, reward1, positions)
                     positions = np.zeros(9)
-                    epsilon *= 0.99
+                    #epsilon *= 0.99
                     break
                 
     print('------------------')              
