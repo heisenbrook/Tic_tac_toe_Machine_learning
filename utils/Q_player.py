@@ -2,8 +2,8 @@ import random
 import numpy as np
 
 def update_q_table(Q, state, action, reward, new_state):
-    alpha = 0.7
-    gamma = 0.01
+    alpha = 0.001
+    gamma = 0.9
     state = str(state)
     new_state = str(new_state)
     q_values = Q.get(state, np.zeros(9))
