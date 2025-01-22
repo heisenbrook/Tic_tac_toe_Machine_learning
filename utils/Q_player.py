@@ -2,14 +2,14 @@ import random
 import numpy as np
 
 def update_q_table(Q, state, action, reward, new_state):
-    alpha = 0.001
-    gamma = 0.9
+    alpha = 0.7
+    gamma = 0.01
     state = str(state)
     new_state = str(new_state)
     q_values = Q.get(state, np.zeros(9))
     next_q_values = Q.get(new_state, np.zeros(9))
     max_next_q_value = np.max(next_q_values)
-    q_values[action] += alpha * (reward + gamma * max_next_q_value - q_values[action])
+    q_values[action] = (1 -alpha) * q_values[action] + alpha * (reward + gamma * max_next_q_value)
 
     Q[state] = q_values
     

@@ -8,5 +8,5 @@ turn = int(input('[1/2]:'))
 
 #play_h(turn)
 play(turn)
-play_r(turn)
+#play_r(turn)
 play_h_vs_b(turn)

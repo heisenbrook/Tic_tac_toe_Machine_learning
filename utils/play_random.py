@@ -21,7 +21,7 @@ def action_r(Q1, turn, positions, epsilon):
 def play_r(turn):
     positions = np.zeros(9)
     p1_win, p2_win, p_tie, p_tot = 0, 0, 0, 0
-    epsilon = 0.5
+    epsilon = 0
     
     for _ in tqdm(range(100000), 
                     desc='Training with random player...', 
@@ -50,6 +50,9 @@ def play_r(turn):
                     positions = np.zeros(9)
                     epsilon *= 0.99
                     break
+                if check_triplets(positions) == False:
+                    reward1 = 0
+                    update_q_table(Q1, cur_pos, action, reward1, positions)
                     
             if turn == 2:
                 action = action_r(Q1, turn, positions, epsilon)
@@ -57,7 +60,7 @@ def play_r(turn):
                 turn = 1
                 if check_triplets(positions) == True:
                     p2_win +=1
-                    reward1 = 0
+                    reward1 = -1
                     update_q_table(Q1, cur_pos, action, reward1, positions)
                     positions = np.zeros(9)
                     epsilon *= 0.99
@@ -69,6 +72,9 @@ def play_r(turn):
                     positions = np.zeros(9)
                     epsilon *= 0.99
                     break
+                if check_triplets(positions) == False:
+                    reward1 = 0
+                    update_q_table(Q1, cur_pos, action, reward1, positions)
                 
     print('------------------')              
     print('Training finished!')  
