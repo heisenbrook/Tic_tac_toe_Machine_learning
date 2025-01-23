@@ -28,7 +28,7 @@ def play(turn):
                     ncols=80):
         p_tot +=1
 
-        while True:
+        while check_triplets(positions) == False :
             cur_pos = positions.copy()
             if turn == 1:
                 action = action_train(Q1, turn, positions, epsilon1)
