@@ -8,9 +8,9 @@ from utils.play_h_vs_bot import play_h_vs_b
 #play_h(turn)
 
 
-play_r()
-
 play()
+
+play_r()
 
 
 
