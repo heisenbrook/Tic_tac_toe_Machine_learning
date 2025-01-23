@@ -30,7 +30,7 @@ def play_h_vs_b(turn):
             positions[action] = 2
             turn = 1
         
-    if check_triplets(positions) == True and turn == 1:
+    if check_triplets(positions) == True and turn == 2:
         print_board(positions)
         print('player1 wins!')
         positions = np.zeros(9)

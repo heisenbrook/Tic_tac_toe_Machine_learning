@@ -7,11 +7,17 @@ from utils.play_h_vs_bot import play_h_vs_b
 
 #play_h(turn)
 
+
+play_r()
+
 play()
 
-#play_r(turn)
 
-print('which one should start first?')
-turn = int(input('[1/2]:'))
 
-play_h_vs_b(turn)
+p_again = 'y'
+
+while p_again == 'y':
+    print('which one should start first?')
+    turn = int(input('[1/2]:'))
+    play_h_vs_b(turn)
+    p_again = input('would you like to play again? [y/n]:')
