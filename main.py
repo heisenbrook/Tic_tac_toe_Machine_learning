@@ -17,7 +17,7 @@ play_r()
 p_again = 'y'
 
 while p_again == 'y':
-    print('which one should start first?')
+    print('You are player 1! which one should start first?')
     turn = int(input('[1/2]:'))
     play_h_vs_b(turn)
     p_again = input('would you like to play again? [y/n]:')

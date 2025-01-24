@@ -1,14 +1,14 @@
 import numpy as np
 from utils.board import print_board, check_triplets
 from utils.Q_player import sel_e_greedy_action
-from utils.play_random import Q1
+from utils.play_random import Q1, Q2
 
-def act(turn, positions, epsilon):
+def act(Q, turn, positions, epsilon):
     while True:
         if turn == 1:
             action = int(input('player 1, where to move? [0 to 8]:'))
         if turn == 2:
-            action = sel_e_greedy_action(Q1, positions, epsilon)
+            action = sel_e_greedy_action(Q, positions, epsilon)
         if positions[action] == 0:
             return action
         else:
@@ -18,15 +18,21 @@ def act(turn, positions, epsilon):
 def play_h_vs_b(turn):
     positions = np.zeros(9)
     epsilon = 0
+    Q = {}
+    
+    if turn == 1:
+        Q = Q2
+    else:
+        Q = Q1
 
     while check_triplets(positions) == False :
         print_board(positions)
         if turn == 1:
-            action = act(turn, positions, epsilon)
+            action = act(Q, turn, positions, epsilon)
             positions[action] = 1
             turn = 2      
         else:
-            action = act(turn, positions, epsilon)
+            action = act(Q, turn, positions, epsilon)
             positions[action] = 2
             turn = 1
         
