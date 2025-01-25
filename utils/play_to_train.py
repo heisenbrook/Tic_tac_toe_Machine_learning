@@ -23,9 +23,9 @@ def play():
     p1_win, p2_win, p_tie, p_tot = 0, 0, 0, 0
     epsilon = 0.5
     
-    for _ in tqdm(range(100000), 
+    for _ in tqdm(range(300000), 
                     desc='Training...', 
-                    total=100000,
+                    total=300000,
                     leave=True,
                     ncols=80):
         p_tot +=1
