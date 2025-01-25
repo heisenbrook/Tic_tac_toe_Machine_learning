@@ -53,13 +53,13 @@ def play():
             epsilon *= 0.99
         elif check_triplets(positions) == 'Tie':
             p_tie +=1
-            update_q_table(Q1, cur_pos, action, 0.5, positions)
+            update_q_table(Q1, cur_pos, action, -1, positions)
             update_q_table(Q2, cur_pos, action, 0.5, positions)
             positions = np.zeros(9)
             epsilon *= 0.99
         else:
             p2_win +=1
-            update_q_table(Q1, cur_pos, action, -1, positions)
+            update_q_table(Q1, cur_pos, action, -2, positions)
             update_q_table(Q2, cur_pos, action, 1, positions)
             positions = np.zeros(9)
             epsilon *= 0.99

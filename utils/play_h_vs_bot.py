@@ -17,7 +17,7 @@ def act(Q, turn, positions, epsilon):
         
 def play_h_vs_b(turn):
     positions = np.zeros(9)
-    epsilon = 0
+    epsilon = 0.5
     Q = {}
     
     if turn == 1:
@@ -26,7 +26,6 @@ def play_h_vs_b(turn):
         Q = Q1
 
     while check_triplets(positions) == False :
-        print_board(positions)
         if turn == 1:
             action = act(Q, turn, positions, epsilon)
             positions[action] = 1
@@ -35,6 +34,8 @@ def play_h_vs_b(turn):
             action = act(Q, turn, positions, epsilon)
             positions[action] = 2
             turn = 1
+            
+        print_board(positions)
         
     if check_triplets(positions) == True and turn == 2:
         print_board(positions)
