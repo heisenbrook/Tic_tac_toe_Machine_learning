@@ -112,10 +112,4 @@ def play_r():
     print('Training Q2 finished!')  
     print(f'player1 wins {((p1_win/p_tot)*100):.2f} | player2 wins {((p2_win/p_tot)*100):.2f} | tie {((p_tie/p_tot)*100):.2f}')  
     
-    outfile = open( 'Q1.txt', 'w' )
-    for key in sorted(Q1):
-        outfile.write( str(key) + '\t' + str(Q1[key]) + '\n' )
-        
-    outfile1 = open( 'Q2.txt', 'w' )
-    for key in sorted(Q2):
-        outfile1.write( str(key) + '\t' + str(Q2[key]) + '\n' ) 
+

@@ -63,6 +63,12 @@ def play():
             update_q_table(Q2, cur_pos, action, 1, positions)
             positions = np.zeros(9)
             epsilon *= 0.99
+            
+            
+    Q1.update(Q2)
+    outfile = open( 'Q1.txt', 'w' )
+    for key in sorted(Q1):
+        outfile.write( str(key) + '\t' + str(Q1[key]) + '\n' )
                 
     print('------------------')              
     print('Training finished!')  

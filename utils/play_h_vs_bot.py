@@ -1,7 +1,7 @@
 import numpy as np
 from utils.board import print_board, check_triplets
 from utils.Q_player import sel_e_greedy_action
-from utils.play_random import Q1, Q2
+from utils.play_random import Q1
 
 def act(Q, turn, positions, epsilon):
     while True:
@@ -18,12 +18,7 @@ def act(Q, turn, positions, epsilon):
 def play_h_vs_b(turn):
     positions = np.zeros(9)
     epsilon = 0.5
-    Q = {}
-    
-    if turn == 1:
-        Q = Q2
-    else:
-        Q = Q1
+    Q = Q1
 
     while check_triplets(positions) == False :
         if turn == 1:
