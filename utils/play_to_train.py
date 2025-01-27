@@ -21,6 +21,7 @@ def action_train(Q1, Q2, turn, positions, epsilon):
 def play():
     positions = np.zeros(9)
     p1_win, p2_win, p_tie, p_tot = 0, 0, 0, 0
+    reward1, reward2 = 0, 0
     epsilon = 0.5
     
     for _ in tqdm(range(300000), 
@@ -37,30 +38,38 @@ def play():
             if turn == 1:
                 action = action_train(Q1, Q2, turn, positions, epsilon)
                 positions[action] = 1
-                update_q_table(Q1, cur_pos, action, 0, positions)
+                update_q_table(Q1, cur_pos, action, -1, positions)
+                reward1 += -1
                 turn = 2      
             else:
                 action = action_train(Q1, Q2, turn, positions, epsilon)
                 positions[action] = 2
-                update_q_table(Q2, cur_pos, action, 0, positions)
+                update_q_table(Q2, cur_pos, action, -1, positions)
+                reward2 += -1
                 turn = 1
         
         if check_triplets(positions) == True and turn == 2:
             p1_win +=1
-            update_q_table(Q1, cur_pos, action, 1, positions)
-            update_q_table(Q2, cur_pos, action, -1, positions)
+            update_q_table(Q1, cur_pos, action, 2, positions)
+            update_q_table(Q2, cur_pos, action, -2, positions)
+            reward1 += 2
+            reward2 += -2
             positions = np.zeros(9)
             epsilon *= 0.99
         elif check_triplets(positions) == 'Tie':
             p_tie +=1
-            update_q_table(Q1, cur_pos, action, -1, positions)
-            update_q_table(Q2, cur_pos, action, 0.5, positions)
+            update_q_table(Q1, cur_pos, action, 0, positions)
+            update_q_table(Q2, cur_pos, action, 0, positions)
+            reward1 += 0
+            reward2 += 0
             positions = np.zeros(9)
             epsilon *= 0.99
         else:
             p2_win +=1
             update_q_table(Q1, cur_pos, action, -2, positions)
-            update_q_table(Q2, cur_pos, action, 1, positions)
+            update_q_table(Q2, cur_pos, action, 2, positions)
+            reward1 += -2
+            reward2 += 2
             positions = np.zeros(9)
             epsilon *= 0.99
             
@@ -72,8 +81,8 @@ def play():
                 
     print('------------------')              
     print('Training finished!')  
-    print(f'player1 wins {((p1_win/p_tot)*100):.2f} | player2 wins {((p2_win/p_tot)*100):.2f} | tie {((p_tie/p_tot)*100):.2f}')
-    
+    print(f'player1 wins {((p1_win/p_tot)*100):.2f} % | player2 wins {((p2_win/p_tot)*100):.2f} % | tie {((p_tie/p_tot)*100):.2f} %')
+    print(f'player1 total reward {reward1} | player2 total reward {reward2}')
 
     
             
