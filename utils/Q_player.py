@@ -13,10 +13,10 @@ def update_q_table(Q, state, action, reward, new_state):
 
     Q[state] = q_values
     
-def sel_e_greedy_action(Q, positions, epsilon):
+def sel_e_greedy_action(Q, positions):
     str_positions = str(positions)
     empty_pos = np.argwhere(positions == 0)
-    if np.random.rand()  < epsilon or str_positions not in Q:
+    if str_positions not in Q:
         action = random.choice(empty_pos)
         return action
     else:
