@@ -12,7 +12,8 @@ def action_r(Q, turn, positions):
         if turn == 1:
             action = sel_e_greedy_action(Q, positions)
         if turn == 2:
-            action = random.randint(0,8)
+            empty_pos = np.argwhere(positions == 0)
+            action = random.choice(empty_pos)
         if positions[action] == 0:
             return action
         else:
@@ -37,22 +38,20 @@ def play_r():
             if turn == 1:
                 action = action_r(Q1, turn, positions)
                 positions[action] = 1
-                update_q_table(Q1, cur_pos, action, 0, positions)
                 turn = 2      
             else:
                 action = action_r(Q1, turn, positions)
                 positions[action] = 2
-                update_q_table(Q1, cur_pos, action, 0, positions)
                 turn = 1
         
         if check_triplets(positions) == True and turn == 2:
             p1_win +=1
-            update_q_table(Q1, cur_pos, action, 1, positions)
+            update_q_table(Q1, cur_pos, action, 2, positions)
             positions = np.zeros(9)
             
         elif check_triplets(positions) == 'Tie':
             p_tie +=1
-            update_q_table(Q1, cur_pos, action, 0.5, positions)
+            update_q_table(Q1, cur_pos, action, 1, positions)
             positions = np.zeros(9)
             
         else:

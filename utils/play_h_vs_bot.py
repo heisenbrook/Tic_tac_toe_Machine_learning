@@ -29,18 +29,18 @@ def play_h_vs_b(turn):
             positions[action] = 2
             turn = 1
             
-        print_board(positions)
+            print_board(positions)
         
     if check_triplets(positions) == True and turn == 2:
-        print_board(positions)
         print('player1 wins!')
+        print_board(positions)
         positions = np.zeros(9)
     elif check_triplets(positions) == 'Tie':
-        print_board(positions)
         print('Tie!')
+        print_board(positions)
         positions = np.zeros(9)
     else:
-        print_board(positions)
         print('player2 wins!')
+        print_board(positions)
         positions = np.zeros(9)
             
