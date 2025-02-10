@@ -21,9 +21,9 @@ def play():
     positions = np.zeros(9)
     p1_win, p2_win, p_tie, p_tot = 0, 0, 0, 0
     
-    for _ in tqdm(range(1000000), 
+    for _ in tqdm(range(10000000), 
                     desc='Training...', 
-                    total=1000000,
+                    total=10000000,
                     leave=True,
                     ncols=80):
         p_tot +=1
