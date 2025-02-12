@@ -20,12 +20,13 @@ def action_r(Q, turn, positions):
             continue
         
 def play_r():
+    num_episodes = 1000000
     positions = np.zeros(9)
     p1_win, p2_win, p_tie, p_tot = 0, 0, 0, 0
     
-    for _ in tqdm(range(10000000), 
+    for _ in tqdm(range(num_episodes), 
                     desc='Training with random Q1', 
-                    total=10000000,
+                    total=num_episodes,
                     leave=True,
                     ncols=80):
         

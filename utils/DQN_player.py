@@ -18,29 +18,27 @@ class DQN(nn.Module):
         x = self.layer3(x)
         return x
 
-model = DQN(9, 9)
+model = DQN(9, 9).to('cuda')
 optimizer = optim.Adam(model.parameters())
 loss_fn = nn.MSELoss()
 
 def select_action(state, epsilon):
-    if np.random.rand() <= epsilon:
-        return np.random.choice(state)
+    if np.random.rand() < epsilon:
+        return int(random.choice(state))
     else:
-        q_val = model(torch.tensor(state, dtype=torch.float32))
-        return torch.argmax(q_val).numpy()
+        q_val = model(torch.tensor(state, dtype=torch.float32).to('cuda'))
+        return torch.argmax(q_val).item()
 
 def update_model(memory, batch_size, gamma = 0.99):
-    if len(memory) < batch_size:
-        return
     exp = random.sample(memory, batch_size)
     for state, action, reward, next_state, done in exp:
         target = reward
         if not done:
-            target = reward + gamma * torch.max(model(torch.tensor(next_state, dtype=torch.float32))).numpy()
-        target_f = model(torch.tensor(state, dtype=torch.float32)).numpy()
+            target = reward + gamma * torch.max(model(torch.tensor(next_state, dtype=torch.float32).to('cuda'))).item()
+        target_f = model(torch.tensor(state, dtype=torch.float32).to('cuda'))
         target_f[action] = target
         optimizer.zero_grad()
-        loss = loss_fn(torch.tensor(target_f)), model(torch.tensor(state, dtype=torch.float32))
+        loss = loss_fn(target_f.clone().detach(), model(torch.tensor(state, dtype=torch.float32).to('cuda')))
         loss.backward()
         optimizer.step()
         
