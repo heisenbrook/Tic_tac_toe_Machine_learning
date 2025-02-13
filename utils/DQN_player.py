@@ -32,7 +32,7 @@ def select_action(state, epsilon):
         q_val = model(torch.tensor(state, dtype=torch.float32).to(device))
         return torch.argmax(q_val).item()
 
-def update_model(memory, batch_size, gamma = 0.99):
+def update_model(memory, batch_size, gamma = 0.7):
     exp = random.sample(memory, batch_size)
     for state, action, reward, next_state, done in exp:
         target = reward
