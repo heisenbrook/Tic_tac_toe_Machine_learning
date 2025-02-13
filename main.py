@@ -1,8 +1,13 @@
+import torch
 from utils.play_to_train import play, play_dqn
 from utils.play_random import play_r
 from utils.play_h_vs_bot import play_h_vs_q, play_vs_dqn 
 
 
+if torch.cuda.is_available():
+    print('GPU available!')
+else:
+    print('GPU not available!')
 
 
 #play_r()

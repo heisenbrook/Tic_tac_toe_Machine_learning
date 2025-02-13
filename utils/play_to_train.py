@@ -78,11 +78,10 @@ def action_train_dqn(positions, memory, epsilon, cur_pos, batch_size):
 
         
 def play_dqn():
-    num_episodes = 100000
-    batch_size = 32
+    num_episodes = 300000
     memory = deque(maxlen=num_episodes*10)
     positions = np.zeros(9)
-    epsilon = 0.9
+    epsilon = 0.5
     p1_win, p2_win, p_tie, p_tot = 0, 0, 0, 0
     
     for _ in tqdm(range(num_episodes), 
@@ -91,6 +90,8 @@ def play_dqn():
                     leave=True,
                     ncols=80):
         p_tot +=1
+
+        batch_size = min(p_tot, 32)
         
         turn = random.randint(1,2)
 
