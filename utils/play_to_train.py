@@ -81,7 +81,7 @@ def play_dqn():
     num_episodes = 300000
     memory = deque(maxlen=num_episodes*10)
     positions = np.zeros(9)
-    epsilon = 0.5
+    epsilon = 0.9
     p1_win, p2_win, p_tie, p_tot = 0, 0, 0, 0
     
     for _ in tqdm(range(num_episodes), 
@@ -91,7 +91,7 @@ def play_dqn():
                     ncols=80):
         p_tot +=1
 
-        batch_size = min(p_tot, 32)
+        batch_size = min(p_tot, 64)
         
         turn = random.randint(1,2)
 
@@ -113,21 +113,21 @@ def play_dqn():
             memory.append((cur_pos, action, 2, positions, True))
             if len(memory) > batch_size:
                 update_model(memory, batch_size)
-                epsilon *= 0.99
+                epsilon *= 0.95
             positions = np.zeros(9)
         elif check_triplets(positions) == 'Tie':
             p_tie +=1
             memory.append((cur_pos, action, 1, positions, True))
             if len(memory) > batch_size:
                 update_model(memory, batch_size)
-                epsilon *= 0.99
+                epsilon *= 0.95
             positions = np.zeros(9)
         else:
             p2_win +=1
             memory.append((cur_pos, action, -2, positions, True))
             if len(memory) > batch_size:
                 update_model(memory, batch_size)
-                epsilon *= 0.99
+                epsilon *= 0.95
             positions = np.zeros(9)
                             
     print('------------------')              

@@ -22,7 +22,7 @@ class DQN(nn.Module):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 model = DQN(9, 9).to(device)
-optimizer = optim.Adam(model.parameters())
+optimizer = optim.Adam(model.parameters(), lr=0.0001)
 loss_fn = nn.MSELoss()
 
 def select_action(state, epsilon):
