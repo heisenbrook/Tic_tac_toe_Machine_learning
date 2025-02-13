@@ -78,7 +78,7 @@ def action_train_dqn(positions, memory, epsilon, cur_pos, batch_size):
 
         
 def play_dqn():
-    num_episodes = 300000
+    num_episodes = 100000
     memory = deque(maxlen=num_episodes*10)
     positions = np.zeros(9)
     epsilon = 0.9
