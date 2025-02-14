@@ -1,8 +1,10 @@
 import random
 from tqdm import tqdm
 import numpy as np
+from collections import deque
 from utils.board import check_triplets
 from utils.Q_player import update_q_table, sel_e_greedy_action
+from utils.DQN_player import select_action, update_model
 
 Q1 = {}
 
@@ -62,8 +64,85 @@ def play_r():
             
         
     print('------------------')              
-    print('Training Q1 finished!')  
-    print(f'player1 wins {((p1_win/p_tot)*100):.2f} | player2 wins {((p2_win/p_tot)*100):.2f} | tie {((p_tie/p_tot)*100):.2f}')   
+    print('Training random finished!')  
+    print(f'player1 wins {((p1_win/p_tot)*100):.2f} | player2 wins {((p2_win/p_tot)*100):.2f} | tie {((p_tie/p_tot)*100):.2f}') 
+
+
+def action_r_dqn(turn, positions, memory, epsilon, cur_pos, batch_size):
+    while True:
+        if turn == 1:
+            action = select_action(positions, epsilon)
+        if turn == 2:
+            empty_pos = np.argwhere(positions == 0)
+            action = random.choice(empty_pos)
+        if positions[action] == 0:
+            return action
+        else:
+            memory.append((cur_pos, action, -3, positions, False))
+            if len(memory) > batch_size:
+                update_model(memory, batch_size)
+            continue
+        
+def play_r_dqn():
+    num_episodes = 100000
+    memory = deque(maxlen=num_episodes*10)
+    positions = np.zeros(9)
+    epsilon = 0.9
+    p1_win, p2_win, p_tie, p_tot = 0, 0, 0, 0
+    
+    for _ in tqdm(range(num_episodes), 
+                    desc='Training with random DQN', 
+                    total=num_episodes,
+                    leave=True,
+                    ncols=80):
+        
+        p_tot +=1
+
+        batch_size = min(p_tot, 64)
+        
+        turn = random.randint(1,2)
+
+        while check_triplets(positions) == False :
+            cur_pos = positions.copy()
+            if turn == 1:
+                action = action_r_dqn(positions, memory, epsilon, cur_pos, batch_size)
+                memory.append((cur_pos, action, -1, positions, False))
+                positions[action] = 1
+                turn = 2      
+            else:
+                action = action_r_dqn(positions, memory, epsilon, cur_pos, batch_size)
+                memory.append((cur_pos, action, -1, positions, False))
+                positions[action] = 2
+                turn = 1
+        
+        if check_triplets(positions) == True and turn == 2:
+            p1_win +=1
+            memory.append((cur_pos, action, 2, positions, True))
+            if len(memory) > batch_size:
+                update_model(memory, batch_size)
+                epsilon *= 0.95
+            positions = np.zeros(9)
+            
+        elif check_triplets(positions) == 'Tie':
+            p_tie +=1
+            memory.append((cur_pos, action, 2, positions, True))
+            if len(memory) > batch_size:
+                update_model(memory, batch_size)
+                epsilon *= 0.95
+            positions = np.zeros(9)
+            
+        else:
+            p2_win +=1
+            memory.append((cur_pos, action, -2, positions, True))
+            if len(memory) > batch_size:
+                update_model(memory, batch_size)
+                epsilon *= 0.95
+            positions = np.zeros(9)
+            
+        
+    print('------------------')              
+    print('Training random finished!')  
+    print(f'player1 wins {((p1_win/p_tot)*100):.2f} | player2 wins {((p2_win/p_tot)*100):.2f} | tie {((p_tie/p_tot)*100):.2f}')    
     
 
 
