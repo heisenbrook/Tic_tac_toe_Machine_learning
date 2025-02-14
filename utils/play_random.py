@@ -7,6 +7,7 @@ from utils.Q_player import update_q_table, sel_e_greedy_action
 from utils.DQN_player import select_action, update_model
 
 Q1 = {}
+memory = deque(maxlen=10000000)
 
 
 def action_r(Q, turn, positions):
@@ -85,7 +86,6 @@ def action_r_dqn(turn, positions, memory, epsilon, cur_pos, batch_size):
         
 def play_r_dqn():
     num_episodes = 100000
-    memory = deque(maxlen=num_episodes*10)
     positions = np.zeros(9)
     epsilon = 0.9
     p1_win, p2_win, p_tie, p_tot = 0, 0, 0, 0

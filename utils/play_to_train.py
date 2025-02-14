@@ -1,6 +1,6 @@
 import numpy as np
 import random
-from utils.play_random import Q1
+from utils.play_random import Q1, memory
 from utils.board import check_triplets
 from utils.Q_player import update_q_table, sel_e_greedy_action
 from utils.DQN_player import select_action, update_model, model, loss_fn
@@ -79,7 +79,6 @@ def action_train_dqn(positions, memory, epsilon, cur_pos, batch_size):
         
 def play_dqn():
     num_episodes = 100000
-    memory = deque(maxlen=num_episodes*10)
     positions = np.zeros(9)
     epsilon = 0.9
     p1_win, p2_win, p_tie, p_tot = 0, 0, 0, 0
