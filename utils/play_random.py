@@ -105,12 +105,12 @@ def play_r_dqn():
         while check_triplets(positions) == False :
             cur_pos = positions.copy()
             if turn == 1:
-                action = action_r_dqn(positions, memory, epsilon, cur_pos, batch_size)
+                action = action_r_dqn(turn, positions, memory, epsilon, cur_pos, batch_size)
                 memory.append((cur_pos, action, -1, positions, False))
                 positions[action] = 1
                 turn = 2      
             else:
-                action = action_r_dqn(positions, memory, epsilon, cur_pos, batch_size)
+                action = action_r_dqn(turn, positions, memory, epsilon, cur_pos, batch_size)
                 memory.append((cur_pos, action, -1, positions, False))
                 positions[action] = 2
                 turn = 1
