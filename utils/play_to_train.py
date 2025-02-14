@@ -100,12 +100,12 @@ def play_dqn():
             if turn == 1:
                 action = action_train_dqn(positions, memory, epsilon, cur_pos, batch_size)
                 positions[action] = 1
-                memory.append((cur_pos, action, 0, positions, False))
+                memory.append((cur_pos, action, -1, positions, False))
                 turn = 2      
             else:
                 action = action_train_dqn(positions, memory, epsilon, cur_pos, batch_size)
                 positions[action] = 2
-                memory.append((cur_pos, action, 0, positions, False))
+                memory.append((cur_pos, action, -1, positions, False))
                 turn = 1
         
         if check_triplets(positions) == True and turn == 2:
@@ -117,7 +117,7 @@ def play_dqn():
             positions = np.zeros(9)
         elif check_triplets(positions) == 'Tie':
             p_tie +=1
-            memory.append((cur_pos, action, 1, positions, True))
+            memory.append((cur_pos, action, 2, positions, True))
             if len(memory) > batch_size:
                 update_model(memory, batch_size)
                 epsilon *= 0.95
